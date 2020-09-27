@@ -1,10 +1,8 @@
-// capturamos el div:
 var calendarDiv = document.getElementById('calendar');
 
-// construimos el objeto calendario:
 var calendar = new FullCalendar.Calendar(calendarDiv, {
-    initialView: 'dayGridMonth', // establecemos que la vista inicial sea todo el mes.
+    locales: 'es', // añadimos esta línea en nuestro calendario
+    initialView: 'dayGridMonth', 
 });
 
-// cargamos el calendario:
 calendar.render();
