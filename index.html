@@ -5,12 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calendario a Full</title>
     <link rel="stylesheet" href="vendor/fullcalendar/main.css">
+    <link rel="stylesheet" href="src/css/calendar.css">
 </head>
 <body>
     <div id="calendar"></div>
+
+    <div id="modal">
+        <div class="containerModal column">
+            <h2>Modal entrada</h2>
+            <hr>
+            <input type="text" id="titulo" placeholder="Título del evento">
+            <div class="row">
+                <input type="text" id="fechaInicio">
+                <input type="text" id="horaInicio" placeholder="Hora de inicio (opcional)">
+            </div>
+            <div class="row">
+                <input type="text" id="fechaFin" placeholder="Fecha de finalización (opcional)">
+                <input type="text" id="horaFin" placeholder="Hora de finalización (opcional)">
+            </div>
+            <textarea id="descripcion" placeholder="Descripción del evento"></textarea>
+            <div class="row">
+                <label for="color">Color de la tarjeta:</label>
+                <input type="color" id="color" name="color" value="#00C217">
+                <label for="textColor">Color del texto:</label>
+                <input type="color" id="textColor" name="textColor" value="#0018CC">
+            </div>
+            <div class="row">
+                <button id="crear">Guardar</button>
+                <button id="cancelar">Cancelar</button>
+            </div>
+        </div>
+    </div>
     
     <script src="vendor/fullcalendar/main.js"></script>
-    <!-- antes del script de nuestro calendario añadimos el archivo traductor: -->
     <script src="vendor/fullcalendar/locales/es.js"></script>
     <script src="src/js/calendar.js"></script>
 </body>
