@@ -5,7 +5,7 @@ var calendar = new FullCalendar.Calendar(calendarDiv, {
     locales: 'es', 
     initialView: 'dayGridMonth', 
     headerToolbar: { 
-        left: 'prev,crearEntrada', // asignamos el botón a la toolbar 
+        left: 'prev,crearEntrada', 
         center: 'title', 
         right: 'next',
 
@@ -22,40 +22,16 @@ var calendar = new FullCalendar.Calendar(calendarDiv, {
         day: 'Día',
         list: 'Listado'
     },
-    customButtons: { // cargamos la propiedad custombuttons
-        crearEntrada: { // creamos un botón
-            text: 'Nuevo evento', // le asignamos un texto
-            click: ()=>{ // y ejecutamos la acción que se dispara.
-                abrirModal('crear'); // esta será abrir el modal con permisos de creación
-                vaciarCampos(); // y vaciamos campos
+    customButtons: { 
+        crearEntrada: {
+            text: 'Nuevo evento', 
+            click: ()=>{ 
+                abrirModal('crear'); 
+                vaciarCampos(); 
             }
         }
-    },
-    events: [
-        {
-            title: 'Evento de prueba 1',
-            description: 'Esta es una descripción de prueba', 
-            start: '2020-09-20 12:00:00', 
-            end: '2020-09-25 12:00:00', 
-            color: 'yellow', 
-            textColor: 'red', 
-        },
-        {
-            title: 'Evento de prueba 2',
-            descripcion: 'Este es otro evento de un solo día',
-            start: '2020-09-26',
-            color: 'red',
-            textColor: 'yellow'
-        },
-        {
-            title: 'Evento de prueba 3',
-            description: 'Este evento dura un tiempo determinado',
-            start: '2020-09-27 08:00:00', 
-            end: '2020-09-27 10:00:00', 
-            color: 'blue',
-            textColor: 'green'
-        }        
-    ], 
+    }, // al pasarle directamente la ruta del json events lo entenderá y los imprimirá:
+    events: "http://localhost:8000/eventos.php", 
     dateClick: (info) => {
         abrirModal('crear');
 
