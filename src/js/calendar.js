@@ -45,48 +45,86 @@ var calendar = new FullCalendar.Calendar(calendarDiv, {
             end: '2020-09-27 10:00:00', 
             color: 'blue',
             textColor: 'green'
-        }
-        
+        }        
     ], 
-    dateClick: (info) => { 
-        abrirModal();
+    dateClick: (info) => {
+        abrirModal('crear');
 
         var fecha = document.getElementById('fechaInicio');
         fecha.value = info.dateStr; 
         
-    }
+    },
+    eventClick: (info) => {
+        document.getElementById('tituloEntrada').innerHTML = info.event.title;
+        document.getElementById('titulo').value = info.event.title;
+        fechaInicio = cortarFecha(info.event.startStr);
+        document.getElementById('fechaInicio').value = fechaInicio[0];
+
+        if(fechaInicio.length > 1){
+            document.getElementById('horaInicio').value = fechaInicio[1];
+        }
+
+        fechaFin = cortarFecha(info.event.endStr);
+        document.getElementById('fechaFin').value = fechaFin[0];
+
+        if(fechaFin.length > 1){
+            document.getElementById('horaFin').value = fechaFin[1];
+        }
+
+        if(info.event.extendedProps.description){
+            document.getElementById('descripcion').value = info.event.extendedProps.description;
+        }
+        
+        document.getElementById('color').value = info.event.backgroundColor;
+        document.getElementById('textColor').value = info.event.textColor;
+
+        abrirModal('editar');
+    },
+    editable: true, 
 });
 
-// capturamos el botón de crear evento y establecemos una acción:
 botonCrear = document.getElementById('crear');
 botonCrear.addEventListener('click', ()=> {
-    // aquí entonces llamamos a la función que se encargará de recuperar los campos del calendario:
     recuperarCampos();
-    // Añadimos el evento al calendario:
     calendar.addEvent(recuperarCampos());
-    // y para finalizar cerramos el modal:
     cerrarModal();
-    // y vaciamos los campos:
     vaciarCampos();
 
 });
 
+// capturamos el botón de editar:
+botonEditar = document.getElementById('editar');
+botonEditar.addEventListener('click', ()=>{
+    console.log(calendar.getEventSourceById(1));
+    // cerramos el modal:
+    cerrarModal();
+    // ahora utilizamos este metodo para actualizar el calendario:
+    calendar.refetchEvents();
+    // vaciamos los campos:
+    vaciarCampos();
+});
+
 var modal = document.getElementById('modal');
 
-function abrirModal(){
+function abrirModal(permisos){
+
+    if(permisos == 'crear'){
+        document.getElementById('editar').style.cssText = "display: none";
+        document.getElementById('crear').style.cssText = "display: block";
+    }else{
+        document.getElementById('editar').style.cssText = "display: block";
+        document.getElementById('crear').style.cssText = "display: none";
+    }
+
     modal.style.cssText = "display: flex;";
     window.setTimeout(()=>{
         modal.style.cssText += "opacity: 1; transition: 0.5s";
     }, 10);
 }
 
-// creamos la función que captura los campos:
 function recuperarCampos(){
-    // creamos un objeto:
     var nuevoEvento = [];
-    // recuperamos el valor de todos los campos 
     nuevoEvento.title = document.getElementById('titulo').value;
-    // este campo combina la fecha y hora:
     if(document.getElementById('horaInicio').value != ''){
         nuevoEvento.start = document.getElementById('fechaInicio').value + " " + document.getElementById('horaInicio').value;
     }else{
@@ -96,30 +134,25 @@ function recuperarCampos(){
     nuevoEvento.description = document.getElementById('descripcion').value;
     nuevoEvento.color = document.getElementById('color').value;
     nuevoEvento.textColor = document.getElementById('textColor').value;
-    // retornamos los datos:
-    console.log(nuevoEvento);
+
     return nuevoEvento;
 }
 
-// creamos independientemente el botón para cerrar el formulario:
 var botonCerrar = document.getElementById('cancelar');
 botonCerrar.addEventListener('click', ()=>{
     cerrarModal();
+    // añadimos aquí vaciarCampos ya que sino al ver un evento y añadir otro se verá:
+    vaciarCampos();
 });
 
-// creamos también una función para cerrar el modal:
 function cerrarModal(){
-    // hacemos el modal invisible:
     modal.style.cssText += 'opacity: 0; transition: 0.5s';
-    // y un temporizador para esperar a que termine y lo ocultamos:
     window.setTimeout(()=>{
         modal.style.cssText = 'display: none';
     }, 500);
 }
 
-// y creamos otra función para vaciar campos:
 function vaciarCampos(){
-    // establecemos los campos value a '':
     document.getElementById('titulo').value = '';
     document.getElementById('horaInicio').value = '';
     document.getElementById('fechaFin').value = '';
@@ -127,6 +160,18 @@ function vaciarCampos(){
     document.getElementById('descripcion').value = '';
     document.getElementById('color').value = '#00C217';
     document.getElementById('textColor').value = '#0018CC';
+}
+
+// creamos el metodo que nos ayudara a arreglar la fecha y hora:
+function cortarFecha(fecha){
+    // cortamos a partir de la T que separa la fecha de la hora:
+    fecha = fecha.split("T");
+    // si existía hora le vamos a quitar la zona horaria para que no se muestre:
+    if(fecha[1]){
+        fecha[1] = fecha[1].substr(0,8);
+    }
+    // retornamos la fecha:
+    return fecha;
 }
 
 calendar.render();
