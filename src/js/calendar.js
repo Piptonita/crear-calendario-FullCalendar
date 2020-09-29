@@ -40,34 +40,15 @@ var calendar = new FullCalendar.Calendar(calendarDiv, {
         
     },
     eventClick: (info) => {
-        document.getElementById('tituloEntrada').innerHTML = info.event.title;
-        // vamos a recuperar ahora el id de nuestro evento:
-        document.getElementById('id').value = info.event.id;
-        document.getElementById('titulo').value = info.event.title;
-        fechaInicio = cortarFecha(info.event.startStr);
-        document.getElementById('fechaInicio').value = fechaInicio[0];
-
-        if(fechaInicio.length > 1){
-            document.getElementById('horaInicio').value = fechaInicio[1];
-        }
-
-        fechaFin = cortarFecha(info.event.endStr);
-        document.getElementById('fechaFin').value = fechaFin[0];
-
-        if(fechaFin.length > 1){
-            document.getElementById('horaFin').value = fechaFin[1];
-        }
-
-        if(info.event.extendedProps.description){
-            document.getElementById('descripcion').value = info.event.extendedProps.description;
-        }
-        
-        document.getElementById('color').value = info.event.backgroundColor;
-        document.getElementById('textColor').value = info.event.textColor;
+        establecerValores(info);
 
         abrirModal('editar');
     },
-    editable: true
+    editable: true,
+    eventDrop: (info)=>{
+        establecerValores(info);
+        sendForm('editar');
+    }
     
 });
 
