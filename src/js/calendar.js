@@ -30,8 +30,8 @@ var calendar = new FullCalendar.Calendar(calendarDiv, {
                 vaciarCampos(); 
             }
         }
-    }, // al pasarle directamente la ruta del json events lo entenderá y los imprimirá:
-    events: "http://localhost:8000/eventos.php", 
+    }, 
+    events: "./eventos.php", 
     dateClick: (info) => {
         abrirModal('crear');
 

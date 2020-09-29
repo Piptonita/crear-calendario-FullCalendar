@@ -12,24 +12,26 @@
 
     <div id="modal">
         <div class="containerModal column">
-            <h2 id="tituloEntrada">Añadir evento</h2>
-            <hr>
-            <input type="text" id="titulo" placeholder="Título del evento">
-            <div class="row">
-                <input type="text" id="fechaInicio" placeholder="Fecha de inicio">
-                <input type="text" id="horaInicio" placeholder="Hora de inicio (opcional)">
-            </div>
-            <div class="row">
-                <input type="text" id="fechaFin" placeholder="Fecha de finalización (opcional)">
-                <input type="text" id="horaFin" placeholder="Hora de finalización (opcional)">
-            </div>
-            <textarea id="descripcion" placeholder="Descripción del evento"></textarea>
-            <div class="row">
-                <label for="color">Color de la tarjeta:</label>
-                <input type="color" id="color" name="color" value="#00C217">
-                <label for="textColor">Color del texto:</label>
-                <input type="color" id="textColor" name="textColor" value="#0018CC">
-            </div>
+            <form id="form">
+                <h2 id="tituloEntrada">Añadir evento</h2>
+                <hr> <!-- creamos una etiqueta form con el id form y le pasamos todos los input y buttons -->
+                <input type="text" id="titulo" name="titulo" placeholder="Título del evento">
+                <div class="row">
+                    <input type="text" id="fechaInicio" name="fechaInicio" placeholder="Fecha de inicio">
+                    <input type="text" id="horaInicio" name="horaInicio" placeholder="Hora de inicio (opcional)">
+                </div>
+                <div class="row">
+                    <input type="text" id="fechaFin" name="fechaFin" placeholder="Fecha de finalización (opcional)">
+                    <input type="text" id="horaFin" name="horaFin" placeholder="Hora de finalización (opcional)">
+                </div>
+                <textarea id="descripcion" name="descripcion" placeholder="Descripción del evento"></textarea>
+                <div class="row">
+                    <label for="color">Color de la tarjeta:</label>
+                    <input type="color" id="color" name="color" value="#00C217">
+                    <label for="textColor">Color del texto:</label>
+                    <input type="color" id="textColor" name="textColor" value="#0018CC">
+                </div>
+            </form>
             <div class="row">
                 <button id="editar">Editar</button>
                 <button id="crear">Guardar</button>
