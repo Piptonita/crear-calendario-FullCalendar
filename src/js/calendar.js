@@ -41,6 +41,8 @@ var calendar = new FullCalendar.Calendar(calendarDiv, {
     },
     eventClick: (info) => {
         document.getElementById('tituloEntrada').innerHTML = info.event.title;
+        // vamos a recuperar ahora el id de nuestro evento:
+        document.getElementById('id').value = info.event.id;
         document.getElementById('titulo').value = info.event.title;
         fechaInicio = cortarFecha(info.event.startStr);
         document.getElementById('fechaInicio').value = fechaInicio[0];

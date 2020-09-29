@@ -1,9 +1,6 @@
 botonCrear = document.getElementById('crear');
 botonCrear.addEventListener('click', ()=> {
-    console.log(recuperarCampos());
-    // vamos a enviar el formulario al backend para almacenar el evento:
     sendForm('crear');
-    // cambiamos el addEvents por refetchEvents que ahora nos funcionará perfectamente:
     calendar.refetchEvents();
     cerrarModal();
     vaciarCampos();
@@ -20,6 +17,8 @@ botonEditar.addEventListener('click', ()=>{
 botonBorrar = document.getElementById('borrar');
 botonBorrar.addEventListener('click', ()=>{
     cerrarModal();
+    // le pasamos la opción de borrar:
+    sendForm('borrar');
     calendar.refetchEvents();
     vaciarCampos();
 })
@@ -74,6 +73,8 @@ function cerrarModal(){
 }
 
 function vaciarCampos(){
+    // también tenemos que vaciar el nuevo campo:
+    document.getElementById('id').value = '';
     document.getElementById('titulo').value = '';
     document.getElementById('fechaInicio').value = '';
     document.getElementById('horaInicio').value = '';
@@ -92,18 +93,14 @@ function cortarFecha(fecha){
     return fecha;
 }
 
-// creamos la función que enviará el formulario:
-function sendForm(opcion){ // le pasamos un parametro para establecer que tipo de acción hará esta petición
-        // recuperamos los campos de formulario:
+function sendForm(opcion){ 
         let data = new FormData(document.getElementById('form'));
-        // creamos la promesa que apunta hacia la ruta del archivo:
         fetch('./eventos.php?accion=' + opcion, {
-            method: 'POST', // usaremos el metodo POST
-            body: data // y le pasamos los datos del formulario.
+            method: 'POST', 
+            body: data 
         })
         .then((respuesta)=>{
             if(respuesta.ok){
-                // si todo va bien veremos como respuesta el json: 
                 return respuesta.text();
             }else{
                 throw "Error en el envío del formulario";
